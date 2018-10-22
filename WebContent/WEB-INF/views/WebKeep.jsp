@@ -66,6 +66,8 @@
 	<table border='1'>
 		<%
 			DAO dao = new DAO();
+		int idPraIngles = 0;
+
 			List<Notas> notas = dao.getListaNotas();
 			for (Notas nota : notas) {
 
@@ -73,7 +75,24 @@
 		%>
 
 
+					<script type="text/javascript">	
+	var xhr = new XMLHttpRequest();
+	var url = "http://api.giphy.com/v1/gifs/translate?api_key=jTqCD5PiUA6PdHY63Yvej71IEycXePvt&s=<%=nota.getConteudoNota() %>&weirdness=10"
+		xhr.open("GET", url,true);
+	xhr.send();
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			var jsonData = JSON.parse(xhr.responseText);
+			document.getElementById("tolo"+<%=idPraIngles%>).src="https://media.giphy.com/media/"+jsonData.data.id+"/giphy.gif";
+			
+	}
+		else {
+		<% System.out.println("OPS");%>	
+		};
+		}
+	</script>
 		<tr border="1">
+		<% System.out.println("id"+idPraIngles); %>
 			<td>
 				<form action="apagaNota" method="post">
 					<input type="hidden" x name="idNota" value="<%=nota.getIdNota()%>">
@@ -87,11 +106,17 @@
 						value="<%=nota.getConteudoNota()%>" autocomplete=off>
 				</form>
 			</td>
+			<td><iframe scrolling="no" frameborder="0" id="tolo<%=idPraIngles %>"
+					allowTransparency="true"
+					width="300" height="500"></iframe></td>
+					
+					
 			<td><iframe scrolling="no" frameborder="0"
 					allowTransparency="true"
-					src="https://www.deezer.com/plugins/player?format=classic&autoplay=false&playlist=true&width=300&height=200&color=007FEB&layout=dark&size=medium&type=tracks&id=<%=nota.getSongId()%>&app_id=306204"
-					width="300" height="150"></iframe></td>
+					src="https://www.deezer.com/plugins/player?format=classic&autoplay=false&playlist=true&width=300&height=500&color=007FEB&layout=dark&size=medium&type=tracks&id=<%=nota.getSongId()%>&app_id=306204"
+					width="300" height="250"></iframe></td>
 			<%
+			idPraIngles+=1;
 				}
 			%>
 		
