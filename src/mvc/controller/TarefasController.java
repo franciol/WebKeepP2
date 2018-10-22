@@ -19,10 +19,19 @@ public class TarefasController {
 	}
 
 	@RequestMapping(value = "postaNota", method = RequestMethod.POST)
-	public String adiciona(Notas nota) {
+	public String adiciona(Notas nota,HttpSession session) {
+		if(!session.getAttribute("songIdSelected").equals("")) {
+			nota.setSongId((String) session.getAttribute("songIdSelected"));
+		}
+		if (!session.getAttribute("gifIdSelected").equals("")) {
+			nota.setGifId((String) session.getAttribute("gifIdSelected"));
+		}
+		
 		System.out.println("Nota cont. : " + nota.getConteudoNota());
 		DAO dao = new DAO();
 		dao.adicionaNota(nota);
+		session.setAttribute("songIdSelected", null);
+		session.setAttribute("gifIdSelected", null);
 		return "WebKeep";
 	}
 
@@ -67,8 +76,9 @@ public class TarefasController {
 	@RequestMapping(value="selecionaMusic",method=RequestMethod.POST)
 	public String songSel(String idSelected, HttpSession session) {
 		session.setAttribute("songIdSelected", idSelected);
+		System.out.println(session.getAttribute("songIdSelected"));
 		
-		return "WebKeep";
+		return "closing";
 	}
 
 }

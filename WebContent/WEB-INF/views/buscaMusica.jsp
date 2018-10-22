@@ -11,26 +11,13 @@
 		<input name="searchTag">
 	</form>
 
-	<table>
-		<tr>
-			<th>Musica selecionada</th>
-			
-			<td>
-			<form action="">
-			<input type="hidden" id="idSelected">
-			<input type="text" id = "songSelected">
-			</form>
-			</td>
-		</tr>
-
-	</table>
-
-
-
 	<script type="text/javascript">
 		var xhr = new XMLHttpRequest();
-		var url = "https://api.deezer.com/search/track?q=<%=request.getParameter("searchTag")%>";
+		var url = "https://cors-anywhere.herokuapp.com/http://api.deezer.com/search/track?q=<%=request.getParameter("searchTag")%>";
 
+
+		xhr.open("GET", url,true);
+		xhr.send();
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState == 4 && xhr.status == 200) {
 				var jsonData = JSON.parse(xhr.responseText);
@@ -39,18 +26,17 @@
 			showTracks(jsonData);
 		};
 
-		xhr.open("GET", url, true);
-		xhr.send();
-
 		function showTracks(data) {
-			var output = "<ul>";
+			var output = "<table>";
 			var i;
-
 			for ( var i in data.data) {
-				output += "<li>id = "+data.data[i].id+" Musica: " + data.data[i].title + " (artist: "
-						+ data.data[i].artist.name + ")</li>";
+				output += '<tr><td><form action="selecionaMusic" method="POST"><input type="hidden" name="idSelected" value="'+data.data[i].id+'"><input type="submit" value="Select"></form></td>';
+				output += "<td>Musica: "
+						+ data.data[i].title + " (artist: "
+						+ data.data[i].artist.name + ")</td></tr>";
 			}
-			output += "</ul>";
+			output += "</table>";
+
 			document.getElementById("listaTracks").innerHTML = output;
 
 		}

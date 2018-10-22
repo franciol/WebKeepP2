@@ -21,6 +21,8 @@
 <body>
 	<%@ page import="java.util.*,mvc.model.*,mvc.controller.*"%>
 	<%
+		session.setAttribute("gifIdSelected", "");
+		session.setAttribute("songIdSelected", "");
 		System.out.println("Usuario: " + session.getAttribute("usuarioLogado"));
 	%>
 
@@ -51,17 +53,23 @@
 			%>
 			<a href="logout">Logout</a> <br>
 	</div>
-
+<table>
+<tr>
+<td>
 	<form action="postaNota" method="post">
 		<semi> Nova nota </semi>
 		<br> <input type="text" name="conteudoNota"><br>
-	</form>
-
+	</form></td><td>
+	<a target="_blank" href="buscaDeezer">Adicionar Música</a>
+	</td></tr>
+</table>
 	<table border='1'>
 		<%
 			DAO dao = new DAO();
 			List<Notas> notas = dao.getListaNotas();
 			for (Notas nota : notas) {
+
+				System.out.println("idSong: " + nota.getSongId());
 		%>
 
 
@@ -81,7 +89,7 @@
 			</td>
 			<td><iframe scrolling="no" frameborder="0"
 					allowTransparency="true"
-					src="https://www.deezer.com/plugins/player?format=classic&autoplay=false&playlist=true&width=300&height=200&color=007FEB&layout=dark&size=medium&type=tracks&id=104166850&app_id=306204"
+					src="https://www.deezer.com/plugins/player?format=classic&autoplay=false&playlist=true&width=300&height=200&color=007FEB&layout=dark&size=medium&type=tracks&id=<%=nota.getSongId()%>&app_id=306204"
 					width="300" height="150"></iframe></td>
 			<%
 				}
