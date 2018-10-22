@@ -63,5 +63,12 @@ public class TarefasController {
 	public String buscaSong() {
 		return "buscaMusica";
 	}
+	
+	@RequestMapping(value="selecionaMusic",method=RequestMethod.POST)
+	public String songSel(String idSelected, HttpSession session) {
+		session.setAttribute("songIdSelected", idSelected);
+		
+		return "WebKeep";
+	}
 
 }

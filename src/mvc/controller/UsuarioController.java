@@ -16,7 +16,7 @@ import mvc.model.UsuarioDAO;;
 public class UsuarioController {
 	@RequestMapping("registro")
 	public String registro() {
-		return "loginForm";
+		return "formulario-registro";
 	}
 
 	@RequestMapping(value = "efetuaRegistro", method = RequestMethod.POST)
