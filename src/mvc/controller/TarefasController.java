@@ -22,11 +22,7 @@ public class TarefasController {
 	public String adiciona(Notas nota,HttpSession session) {
 		if(!session.getAttribute("songIdSelected").equals("")) {
 			nota.setSongId((String) session.getAttribute("songIdSelected"));
-		}
-		if (!session.getAttribute("gifIdSelected").equals("")) {
-			nota.setGifId((String) session.getAttribute("gifIdSelected"));
-		}
-		
+		}		
 		System.out.println("Nota cont. : " + nota.getConteudoNota());
 		DAO dao = new DAO();
 		dao.adicionaNota(nota);
@@ -46,6 +42,11 @@ public class TarefasController {
 	public String apaga(Notas nota) {
 		DAO dao = new DAO();
 		dao.removeNota(nota);
+		return "WebKeep";
+	}
+	
+	@RequestMapping("refresh")
+	public String refresh() {
 		return "WebKeep";
 	}
 
@@ -79,6 +80,13 @@ public class TarefasController {
 		System.out.println(session.getAttribute("songIdSelected"));
 		
 		return "closing";
+	}
+	
+	@RequestMapping(value="verGif", method=RequestMethod.POST)
+	public String seeGif(Notas nota,HttpSession session) {
+		session.setAttribute("gifCont", nota.getConteudoNota());
+		System.out.println("gifCont: "+session.getAttribute("gifCont"));
+		return "WebKeep";
 	}
 
 }

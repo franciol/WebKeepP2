@@ -19,9 +19,10 @@
 		System.out.println(request.getParameter("code"));
 		session.setAttribute("code01", request.getParameter("code"));
 		if (session.getAttribute("code01").equals(null)) {
-
 		} else {
 	%>
+	
+	<script type="text/javascript">closing();</script>
 	<a href="localhost:8080/TechWebP2/finalizaLogDeezer" onclick="closing()" target="_blank">Redirect</a>
 
 	<%
